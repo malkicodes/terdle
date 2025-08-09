@@ -40,7 +40,6 @@ var CONTRAST_CORRECTNESS_0 = lipgloss.NewStyle().Inline(true).
 	Faint(true).
 	Width(1).Height(1)
 var CONTRAST_CORRECTNESS_1 = lipgloss.NewStyle().Inline(true).
-	Bold(true).
 	Foreground(lipgloss.ANSIColor(4)).
 	Width(1).Height(1)
 var CONTRAST_CORRECTNESS_2 = lipgloss.NewStyle().Inline(true).
