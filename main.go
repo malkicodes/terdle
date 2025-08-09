@@ -61,8 +61,8 @@ func (m *MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 var containerStyle = lipgloss.NewStyle().
-	Width(9).Height(8).
-	Padding(1, 2).
+	Width(11).Height(8).
+	Padding(1, 3).
 	Border(lipgloss.RoundedBorder())
 
 func (m MainModel) View() string {
