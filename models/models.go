@@ -58,7 +58,7 @@ func (m GuessDisplayModel) Index() int {
 			return i
 		}
 	}
-	return -1
+	return 6
 }
 
 func (m GuessDisplayModel) Init() tea.Cmd {

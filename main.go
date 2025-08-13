@@ -48,7 +48,7 @@ func (m *MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.guesses.Win {
 				m.endCase = 1
 				return m, tea.Quit
-			} else if m.guesses.Index() == -1 {
+			} else if m.guesses.Index() == 6 {
 				m.endCase = -1
 				return m, tea.Quit
 			}
