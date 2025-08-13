@@ -11,9 +11,9 @@ import (
 )
 
 type GuessDisplayModel struct {
-	contrast bool
+	Contrast bool
 
-	guesses     [6]words.Word
+	Guesses     [6]words.Word
 	Correctness [6][5]uint8
 
 	Win bool
@@ -53,7 +53,7 @@ var ContrastCorrectnessStyle = map[uint8]lipgloss.Style{
 }
 
 func (m GuessDisplayModel) Index() int {
-	for i, guess := range m.guesses {
+	for i, guess := range m.Guesses {
 		if guess[0] == 0 {
 			return i
 		}
@@ -69,7 +69,7 @@ func (m *GuessDisplayModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case GuessDisplayModelUpdateMsg:
 		m.Correctness[m.Index()] = msg.correctness
-		m.guesses[m.Index()] = msg.guess
+		m.Guesses[m.Index()] = msg.guess
 		m.Win = msg.win
 	}
 
@@ -81,13 +81,13 @@ func (m GuessDisplayModel) View() string {
 
 	var styles map[uint8]lipgloss.Style
 
-	if m.contrast {
+	if m.Contrast {
 		styles = ContrastCorrectnessStyle
 	} else {
 		styles = CorrectnessStyle
 	}
 
-	for i, guess := range m.guesses {
+	for i, guess := range m.Guesses {
 		guessCorrectness := m.Correctness[i]
 		rendered := ""
 
@@ -107,7 +107,7 @@ func (m GuessDisplayModel) View() string {
 
 func NewGuessDisplayModel(contrast bool) GuessDisplayModel {
 	return GuessDisplayModel{
-		contrast: contrast,
+		Contrast: contrast,
 	}
 }
 

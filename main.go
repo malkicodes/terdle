@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"strconv"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -60,10 +61,13 @@ func (m *MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-var containerStyle = lipgloss.NewStyle().
+var gameContainerStyle = lipgloss.NewStyle().
 	Width(11).Height(8).
 	Padding(1, 3).
 	Border(lipgloss.RoundedBorder())
+
+var keyboardContainerStyle = lipgloss.NewStyle().
+	Align(lipgloss.Center, lipgloss.Center)
 
 func (m MainModel) View() string {
 	rendered := ""
@@ -77,7 +81,64 @@ func (m MainModel) View() string {
 	return lipgloss.Place(
 		m.width, m.height,
 		lipgloss.Center, lipgloss.Center,
-		containerStyle.Render(rendered),
+		lipgloss.JoinVertical(
+			lipgloss.Center,
+			gameContainerStyle.Render(rendered),
+			displayKeyboard(&m.guesses),
+		),
+	)
+}
+
+var keyboard [][]rune = [][]rune{
+	{'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
+	{'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'},
+	{'z', 'x', 'c', 'v', 'b', 'n', 'm'},
+}
+
+func displayKeyboard(m *models.GuessDisplayModel) string {
+	status := make(map[rune]uint8, 0)
+
+	for i := 0; i < m.Index(); i++ {
+		for j, char := range m.Guesses[i] {
+			status[char] = m.Correctness[i][j]
+		}
+	}
+
+	lines := make([]string, 3)
+
+	for i, row := range keyboard {
+		line := ""
+
+		for _, char := range row {
+			renderedChar := string(char)
+
+			correctness, prs := status[char]
+
+			var styles map[uint8]lipgloss.Style
+
+			if m.Contrast {
+				styles = models.ContrastCorrectnessStyle
+			} else {
+				styles = models.CorrectnessStyle
+			}
+
+			if prs {
+				renderedChar = styles[correctness].Render(renderedChar)
+			}
+
+			line += " " + renderedChar + " "
+		}
+
+		lines[i] = strings.TrimSpace(line)
+	}
+
+	return keyboardContainerStyle.Render(
+		lipgloss.JoinVertical(
+			lipgloss.Center,
+			lines[0],
+			lines[1],
+			lines[2],
+		),
 	)
 }
 
