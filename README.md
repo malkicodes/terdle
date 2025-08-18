@@ -2,10 +2,13 @@
 
 A [Wordle](https://www.nytimes.com/games/wordle/index.html) clone that runs in the terminal.
 
+![A game of Wordle in the terminal, powered by Terdle](demo.gif)
+
 ## Play
 
 ### Prerequisites
 - [Go](https://go.dev)
+- [VHS](https://github.com/charmbracelet/vhs) (optional, for creating the demo.gif file)
 
 ### Steps
 
